@@ -5,10 +5,13 @@ from pydantic import BaseModel
 from typing import Optional
 from pipeline_agents.pipeline import run_full_pipeline
 
+from datetime import datetime
+
 router = APIRouter()
 
 DATA_PATH = Path(__file__).parent.parent / "data" / "synthetic_data.json"
-
+RESULTS_DIR = Path(__file__).parent.parent / "data" / "results"
+RESULTS_DIR.mkdir(exist_ok=True)
 
 def load_data() -> dict:
     with open(DATA_PATH) as f:
@@ -56,7 +59,14 @@ async def run_pipeline(request: RunPipelineRequest):
                 data["scenario_context"] = context
 
         result = run_full_pipeline(data)
-        return {"success": True, "data": result}
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        scenario_tag = request.scenario or "default"
+        filename = RESULTS_DIR / f"result_{scenario_tag}_{timestamp}.json"
+        with open(filename, "w") as f:
+            json.dump(result, f, indent=2)
+
+        return {"success": True, "data": result, "saved_to": str(filename)}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -86,3 +96,12 @@ async def get_overview():
         "departments": data["organization"]["departments"],
         "critical_roles": len([r for r in data["forecasted_roles"] if r["priority"] == "critical"])
     }
+
+@router.get("/pipeline/last")
+async def get_last_result():
+    """Return the most recent saved pipeline result."""
+    files = sorted(RESULTS_DIR.glob("result_*.json"))
+    if not files:
+        raise HTTPException(status_code=404, detail="No saved results found. Run the pipeline first.")
+    with open(files[-1]) as f:
+        return {"success": True, "data": json.load(f), "file": files[-1].name}
