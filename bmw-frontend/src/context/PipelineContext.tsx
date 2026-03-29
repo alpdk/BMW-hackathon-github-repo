@@ -1,13 +1,12 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { getLastPipeline, runPipeline, type RunPipelineRequest } from "@/lib/api";
+import React, { createContext, useContext, useState, useCallback } from "react";
+import { getLastPipeline, runPipeline, getEmployees, getRoles, type RunPipelineRequest } from "@/lib/api";
 import {
-  mapForecastedRoles,
-  mapEmployeeTrajectories,
+  mapForecastedRolesFromRaw,
+  mapEmployeeTrajectoriesFromRaw,
   mapRoleMatches,
   mapDevelopmentInterventions,
   mapExecutiveDecisions,
   deriveExecutiveSummary,
-  type ExecutiveSummaryData,
 } from "@/lib/mappers";
 import type {
   ForecastedRole,
@@ -15,15 +14,8 @@ import type {
   RoleMatch,
   DevelopmentIntervention,
   ExecutiveDecision,
-} from "@/data/demo-data";
-import {
-  forecastedRoles as demoRoles,
-  employeeTrajectories as demoTrajectories,
-  roleMatches as demoMatches,
-  developmentInterventions as demoInterventions,
-  executiveDecisions as demoDecisions,
-  executiveSummary as demoSummary,
-} from "@/data/demo-data";
+  ExecutiveSummaryData,
+} from "@/types/display";
 import { toast } from "sonner";
 
 interface PipelineState {
@@ -39,44 +31,129 @@ interface PipelineState {
   isUsingDemoData: boolean;
   runAnalysis: (params?: RunPipelineRequest) => Promise<void>;
   refreshData: () => Promise<void>;
+  loadRawData: () => Promise<void>;
 }
+
+const EMPTY_EXEC_SUMMARY: ExecutiveSummaryData = {
+  pipelineHealth: 0,
+  pipelineHealthLabel: "Not assessed",
+  totalForecastedRoles: 0,
+  urgentRoles: 0,
+  internalReady: 0,
+  externalRequired: 0,
+  hybridApproach: 0,
+  topRisks: [],
+  hiddenTalent: [],
+  analysisTimestamp: null,
+  executiveSummaryText: "",
+};
 
 const PipelineContext = createContext<PipelineState | undefined>(undefined);
 
-function parsePipelineResponse(data: any): Omit<PipelineState, "isLoading" | "isRunning" | "error" | "isUsingDemoData" | "runAnalysis" | "refreshData"> {
-  const agents = data?.data?.agents ?? data?.agents ?? data;
+async function fetchRawData(): Promise<{ employees: any[] | null; roles: any[] | null }> {
+  try {
+    const [empRes, roleRes] = await Promise.all([getEmployees(), getRoles()]);
 
-  const roleForecast = agents?.role_forecast ?? agents?.roleForecast ?? {};
-  const trajectories = agents?.employee_trajectories ?? agents?.employeeTrajectories ?? {};
-  const matches = agents?.role_matches ?? agents?.roleMatches ?? {};
-  const devPlans = agents?.development_plans ?? agents?.developmentPlans ?? {};
-  const finalDecision = agents?.final_decision ?? agents?.finalDecision ?? {};
+    console.log("🔍 RAW API RESPONSES");
+    console.log("Employees response:", empRes);
+    console.log("Roles response:", roleRes);
 
-  const forecastedRoles = mapForecastedRoles(
-    roleForecast?.roles ?? roleForecast?.forecasted_roles ?? roleForecast?.data ?? []
-  );
-  const employeeTrajectories = mapEmployeeTrajectories(
-    trajectories?.employees ?? trajectories?.trajectories ?? trajectories?.data ?? []
-  );
+    const employees = Array.isArray(empRes)
+      ? empRes
+      : (empRes?.employees ?? empRes?.data?.employees ?? empRes?.data ?? null);
+
+    const roles = Array.isArray(roleRes)
+      ? roleRes
+      : (roleRes?.roles ?? roleRes?.data?.roles ?? roleRes?.forecasted_roles ?? roleRes?.data ?? null);
+
+    console.log("🧩 PARSED RAW DATA");
+    console.log("Parsed employees:", employees);
+    console.log("Parsed roles:", roles);
+
+    if (!employees || !Array.isArray(employees)) {
+      console.warn("⚠ Employees parsing failed or returned non-array");
+    }
+
+    if (!roles || !Array.isArray(roles)) {
+      console.warn("⚠ Roles parsing failed or returned non-array");
+    }
+
+    return { employees, roles };
+  } catch (err) {
+    console.error("❌ fetchRawData failed:", err);
+    return { employees: null, roles: null };
+  }
+}
+
+function parsePipelineResponse(
+  pipelineData: any,
+  rawEmployees: any[] | null,
+  rawRoles: any[] | null
+): Omit<PipelineState, "isLoading" | "isRunning" | "error" | "isUsingDemoData" | "runAnalysis" | "refreshData" | "loadRawData"> {
+  const agents = pipelineData?.data?.agents ?? pipelineData?.agents ?? pipelineData ?? {};
+
+  const roleForecast = agents?.role_forecast ?? {};
+  const trajectories = agents?.employee_trajectories ?? {};
+  const matches = agents?.role_matches ?? {};
+  const devPlans = agents?.development_plans ?? {};
+  const finalDecision = agents?.final_decision ?? {};
+
+  const pipelineRoles =
+    roleForecast?.prioritized_roles ??
+    roleForecast?.roles ??
+    roleForecast?.forecasted_roles ??
+    roleForecast?.data ??
+    [];
+
+  const pipelineTrajectories =
+    trajectories?.employee_trajectories ??
+    trajectories?.employees ??
+    trajectories?.trajectories ??
+    trajectories?.data ??
+    [];
+
+  const forecastedRoles =
+    rawRoles && rawRoles.length > 0
+      ? mapForecastedRolesFromRaw(rawRoles, pipelineRoles)
+      : [];
+
+  const employeeTrajectories =
+    rawEmployees && rawEmployees.length > 0
+      ? mapEmployeeTrajectoriesFromRaw(rawEmployees, pipelineTrajectories)
+      : [];
+
   const roleMatches = mapRoleMatches(
-    matches?.matches ?? matches?.role_matches ?? matches?.data ?? []
+    matches?.role_matches ?? matches?.matches ?? matches?.data ?? []
   );
+
   const developmentInterventions = mapDevelopmentInterventions(
-    devPlans?.interventions ?? devPlans?.plans ?? devPlans?.data ?? []
+    devPlans?.development_plans ?? devPlans?.interventions ?? devPlans?.plans ?? devPlans?.data ?? []
   );
+
   const executiveDecisions = mapExecutiveDecisions(
     finalDecision?.decisions ?? finalDecision?.recommendations ?? finalDecision?.data ?? []
   );
 
-  const executiveSummary = deriveExecutiveSummary(forecastedRoles, roleMatches, executiveDecisions);
+  const executiveSummary = deriveExecutiveSummary(
+    forecastedRoles,
+    roleMatches,
+    executiveDecisions,
+    {
+      pipeline_health: finalDecision?.pipeline_health ?? matches?.overall_pipeline_health,
+      executive_summary: finalDecision?.executive_summary,
+      org_risks: finalDecision?.org_risks,
+      top_hidden_talent: finalDecision?.top_hidden_talent,
+    }
+  );
 
-  // Override with backend summary fields if present
-  const backendSummary = finalDecision?.summary ?? finalDecision?.executive_summary ?? {};
-  if (backendSummary.pipeline_health != null) executiveSummary.pipelineHealth = backendSummary.pipeline_health;
-  if (backendSummary.top_risks) executiveSummary.topRisks = backendSummary.top_risks;
-  if (backendSummary.hidden_talent) executiveSummary.hiddenTalent = backendSummary.hidden_talent;
-
-  return { forecastedRoles, employeeTrajectories, roleMatches, developmentInterventions, executiveDecisions, executiveSummary };
+  return {
+    forecastedRoles,
+    employeeTrajectories,
+    roleMatches,
+    developmentInterventions,
+    executiveDecisions,
+    executiveSummary,
+  };
 }
 
 export function PipelineProvider({ children }: { children: React.ReactNode }) {
@@ -92,46 +169,86 @@ export function PipelineProvider({ children }: { children: React.ReactNode }) {
     error: string | null;
     isUsingDemoData: boolean;
   }>({
-    forecastedRoles: demoRoles,
-    employeeTrajectories: demoTrajectories,
-    roleMatches: demoMatches,
-    developmentInterventions: demoInterventions,
-    executiveDecisions: demoDecisions,
-    executiveSummary: demoSummary,
-    isLoading: true,
+    forecastedRoles: [],
+    employeeTrajectories: [],
+    roleMatches: [],
+    developmentInterventions: [],
+    executiveDecisions: [],
+    executiveSummary: EMPTY_EXEC_SUMMARY,
+    isLoading: false,
     isRunning: false,
     error: null,
-    isUsingDemoData: true,
+    isUsingDemoData: false,
   });
 
-  const loadLastPipeline = useCallback(async () => {
+  const loadRawData = useCallback(async () => {
     setState((s) => ({ ...s, isLoading: true, error: null }));
+
     try {
-      const response = await getLastPipeline();
-      if (response?.success === false && !response?.data) {
-        // No previous results — keep demo data
-        setState((s) => ({ ...s, isLoading: false, isUsingDemoData: true }));
+      const rawData = await fetchRawData();
+      const parsed = parsePipelineResponse({}, rawData.employees, rawData.roles);
+
+      setState((s) => ({
+        ...s,
+        ...parsed,
+        roleMatches: [],
+        developmentInterventions: [],
+        executiveDecisions: [],
+        executiveSummary: deriveExecutiveSummary(parsed.forecastedRoles, [], [], {}),
+        isLoading: false,
+      }));
+
+      toast.success("Raw data loaded");
+    } catch (err: any) {
+      const msg = err?.message ?? "Failed to load raw data";
+      setState((s) => ({ ...s, isLoading: false, error: msg }));
+      toast.error("Failed to load raw data", { description: msg });
+    }
+  }, []);
+
+  const refreshData = useCallback(async () => {
+    setState((s) => ({ ...s, isLoading: true, error: null }));
+
+    try {
+      const [pipelineResponse, rawData] = await Promise.all([
+        getLastPipeline().catch(() => null),
+        fetchRawData(),
+      ]);
+
+      if (!pipelineResponse || (pipelineResponse?.success === false && !pipelineResponse?.data)) {
+        const parsed = parsePipelineResponse({}, rawData.employees, rawData.roles);
+        setState((s) => ({
+          ...s,
+          ...parsed,
+          roleMatches: [],
+          developmentInterventions: [],
+          executiveDecisions: [],
+          executiveSummary: deriveExecutiveSummary(parsed.forecastedRoles, [], [], {}),
+          isLoading: false,
+        }));
         return;
       }
-      const parsed = parsePipelineResponse(response);
-      const hasData = parsed.forecastedRoles.length > 0 || parsed.executiveDecisions.length > 0;
-      if (hasData) {
-        setState((s) => ({ ...s, ...parsed, isLoading: false, isUsingDemoData: false }));
-      } else {
-        setState((s) => ({ ...s, isLoading: false, isUsingDemoData: true }));
-      }
-    } catch {
-      // Backend unavailable — silently fall back to demo data
-      setState((s) => ({ ...s, isLoading: false, isUsingDemoData: true }));
+
+      const parsed = parsePipelineResponse(pipelineResponse, rawData.employees, rawData.roles);
+      setState((s) => ({ ...s, ...parsed, isLoading: false }));
+    } catch (err: any) {
+      const msg = err?.message ?? "Failed to refresh data";
+      setState((s) => ({ ...s, isLoading: false, error: msg }));
+      toast.error("Failed to refresh data", { description: msg });
     }
   }, []);
 
   const runAnalysis = useCallback(async (params: RunPipelineRequest = {}) => {
     setState((s) => ({ ...s, isRunning: true, error: null }));
+
     try {
-      const response = await runPipeline(params);
-      const parsed = parsePipelineResponse(response);
-      setState((s) => ({ ...s, ...parsed, isRunning: false, isUsingDemoData: false }));
+      const [pipelineResponse, rawData] = await Promise.all([
+        runPipeline(params),
+        fetchRawData(),
+      ]);
+
+      const parsed = parsePipelineResponse(pipelineResponse, rawData.employees, rawData.roles);
+      setState((s) => ({ ...s, ...parsed, isRunning: false }));
       toast.success("Analysis complete — data updated across all views");
     } catch (err: any) {
       const msg = err?.message ?? "Failed to run analysis";
@@ -140,12 +257,15 @@ export function PipelineProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  useEffect(() => {
-    loadLastPipeline();
-  }, [loadLastPipeline]);
-
   return (
-    <PipelineContext.Provider value={{ ...state, runAnalysis, refreshData: loadLastPipeline }}>
+    <PipelineContext.Provider
+      value={{
+        ...state,
+        runAnalysis,
+        refreshData,
+        loadRawData,
+      }}
+    >
       {children}
     </PipelineContext.Provider>
   );
