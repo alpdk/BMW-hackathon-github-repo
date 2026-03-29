@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { getLastPipeline, runPipeline, getEmployees, getRoles, type RunPipelineRequest } from "@/lib/api";
 import {
   mapForecastedRolesFromRaw,
@@ -18,6 +18,13 @@ import type {
 } from "@/types/display";
 import { toast } from "sonner";
 
+// 🔐 LocalStorage keys
+const LS_KEYS = {
+  employees: "bmw_raw_employees",
+  roles: "bmw_raw_roles",
+  pipeline: "bmw_pipeline_data",
+};
+
 interface PipelineState {
   forecastedRoles: ForecastedRole[];
   employeeTrajectories: EmployeeTrajectory[];
@@ -28,10 +35,9 @@ interface PipelineState {
   isLoading: boolean;
   isRunning: boolean;
   error: string | null;
-  isUsingDemoData: boolean;
+  loadRawData: () => Promise<void>;
   runAnalysis: (params?: RunPipelineRequest) => Promise<void>;
   refreshData: () => Promise<void>;
-  loadRawData: () => Promise<void>;
 }
 
 const EMPTY_EXEC_SUMMARY: ExecutiveSummaryData = {
@@ -50,109 +56,38 @@ const EMPTY_EXEC_SUMMARY: ExecutiveSummaryData = {
 
 const PipelineContext = createContext<PipelineState | undefined>(undefined);
 
-async function fetchRawData(): Promise<{ employees: any[] | null; roles: any[] | null }> {
-  try {
-    const [empRes, roleRes] = await Promise.all([getEmployees(), getRoles()]);
+async function fetchRawData() {
+  const [empRes, roleRes] = await Promise.all([getEmployees(), getRoles()]);
 
-    const employees = Array.isArray(empRes)
-      ? empRes
-      : (empRes?.employees ?? empRes?.data?.employees ?? empRes?.data ?? null);
+  const employees = empRes?.employees ?? empRes?.data ?? empRes ?? null;
+  const roles = roleRes?.roles ?? roleRes?.data ?? roleRes ?? null;
 
-    const roles = Array.isArray(roleRes)
-      ? roleRes
-      : (roleRes?.roles ?? roleRes?.data?.roles ?? roleRes?.forecasted_roles ?? roleRes?.data ?? null);
-
-    return { employees, roles };
-  } catch (err) {
-    console.error("❌ fetchRawData failed:", err);
-    return { employees: null, roles: null };
-  }
+  return { employees, roles };
 }
 
-function parsePipelineResponse(
-  pipelineData: any,
-  rawEmployees: any[] | null,
-  rawRoles: any[] | null
-): Omit<PipelineState, "isLoading" | "isRunning" | "error" | "isUsingDemoData" | "runAnalysis" | "refreshData" | "loadRawData"> {
+function parsePipelineResponse(pipelineData: any, rawEmployees: any[], rawRoles: any[]) {
   const agents = pipelineData?.data?.agents ?? pipelineData?.agents ?? pipelineData ?? {};
 
-  const roleForecast = agents?.role_forecast ?? {};
-  const trajectories = agents?.employee_trajectories ?? {};
-  const matches = agents?.role_matches ?? {};
-  const devPlans = agents?.development_plans ?? {};
-  const finalDecision = agents?.final_decision ?? {};
-
-  const pipelineRoles =
-    roleForecast?.prioritized_roles ??
-    roleForecast?.roles ??
-    roleForecast?.forecasted_roles ??
-    roleForecast?.data ??
-    [];
-
-  const pipelineTrajectories =
-    trajectories?.employee_trajectories ??
-    trajectories?.employees ??
-    trajectories?.trajectories ??
-    trajectories?.data ??
-    [];
-
-  const forecastedRoles =
-    rawRoles && rawRoles.length > 0
-      ? mapForecastedRolesFromRaw(rawRoles, pipelineRoles)
-      : [];
-
-  const employeeTrajectories =
-    rawEmployees && rawEmployees.length > 0
-      ? mapEmployeeTrajectoriesFromRaw(rawEmployees, pipelineTrajectories)
-      : [];
-
-  const roleMatches = mapRoleMatches(
-    matches?.role_matches ?? matches?.matches ?? matches?.data ?? []
-  );
-
-  const developmentInterventions = mapDevelopmentInterventions(
-    devPlans?.development_plans ?? devPlans?.interventions ?? devPlans?.plans ?? devPlans?.data ?? []
-  );
-
-  const executiveDecisions = mapExecutiveDecisions(
-    finalDecision?.decisions ?? finalDecision?.recommendations ?? finalDecision?.data ?? []
-  );
-
-  const executiveSummary = deriveExecutiveSummary(
-    forecastedRoles,
-    roleMatches,
-    executiveDecisions,
-    {
-      pipeline_health: finalDecision?.pipeline_health ?? matches?.overall_pipeline_health,
-      executive_summary: finalDecision?.executive_summary,
-      org_risks: finalDecision?.org_risks,
-      top_hidden_talent: finalDecision?.top_hidden_talent,
-    }
-  );
+  const pipelineRoles = agents?.role_forecast?.prioritized_roles ?? [];
+  const pipelineTrajectories = agents?.employee_trajectories?.employee_trajectories ?? [];
 
   return {
-    forecastedRoles,
-    employeeTrajectories,
-    roleMatches,
-    developmentInterventions,
-    executiveDecisions,
-    executiveSummary,
+    forecastedRoles: mapForecastedRolesFromRaw(rawRoles, pipelineRoles),
+    employeeTrajectories: mapEmployeeTrajectoriesFromRaw(rawEmployees, pipelineTrajectories),
+    roleMatches: mapRoleMatches(agents?.role_matches?.role_matches ?? []),
+    developmentInterventions: mapDevelopmentInterventions(agents?.development_plans?.development_plans ?? []),
+    executiveDecisions: mapExecutiveDecisions(agents?.final_decision?.decisions ?? []),
+    executiveSummary: deriveExecutiveSummary(
+      rawRoles,
+      agents?.role_matches?.role_matches ?? [],
+      agents?.final_decision?.decisions ?? [],
+      agents?.final_decision
+    ),
   };
 }
 
 export function PipelineProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<{
-    forecastedRoles: ForecastedRole[];
-    employeeTrajectories: EmployeeTrajectory[];
-    roleMatches: RoleMatch[];
-    developmentInterventions: DevelopmentIntervention[];
-    executiveDecisions: ExecutiveDecision[];
-    executiveSummary: ExecutiveSummaryData;
-    isLoading: boolean;
-    isRunning: boolean;
-    error: string | null;
-    isUsingDemoData: boolean;
-  }>({
+  const [state, setState] = useState({
     forecastedRoles: [],
     employeeTrajectories: [],
     roleMatches: [],
@@ -162,92 +97,93 @@ export function PipelineProvider({ children }: { children: React.ReactNode }) {
     isLoading: false,
     isRunning: false,
     error: null,
-    isUsingDemoData: false,
   });
 
-  const loadRawData = useCallback(async () => {
-    setState((s) => ({ ...s, isLoading: true, error: null }));
+  const [rawEmployees, setRawEmployees] = useState<any[]>([]);
+  const [rawRoles, setRawRoles] = useState<any[]>([]);
+  const [pipelineData, setPipelineData] = useState<any>(null);
 
-    try {
-      const rawData = await fetchRawData();
-      const parsed = parsePipelineResponse({}, rawData.employees, rawData.roles);
+  // ✅ LOAD FROM LOCAL STORAGE ON START
+  useEffect(() => {
+    const storedEmployees = localStorage.getItem(LS_KEYS.employees);
+    const storedRoles = localStorage.getItem(LS_KEYS.roles);
+    const storedPipeline = localStorage.getItem(LS_KEYS.pipeline);
+
+    if (storedEmployees && storedRoles) {
+      const employees = JSON.parse(storedEmployees);
+      const roles = JSON.parse(storedRoles);
+      const pipeline = storedPipeline ? JSON.parse(storedPipeline) : null;
+
+      setRawEmployees(employees);
+      setRawRoles(roles);
+      setPipelineData(pipeline);
+
+      const parsed = parsePipelineResponse(pipeline ?? {}, employees, roles);
 
       setState((s) => ({
         ...s,
         ...parsed,
-        roleMatches: [],
-        developmentInterventions: [],
-        executiveDecisions: [],
-        executiveSummary: deriveExecutiveSummary(parsed.forecastedRoles, [], [], {}),
-        isLoading: false,
       }));
-
-      toast.success("Raw data loaded");
-    } catch (err: any) {
-      const msg = err?.message ?? "Failed to load raw data";
-      setState((s) => ({ ...s, isLoading: false, error: msg }));
-      toast.error("Failed to load raw data", { description: msg });
     }
   }, []);
 
-  const refreshData = useCallback(async () => {
-    setState((s) => ({ ...s, isLoading: true, error: null }));
+  const loadRawData = useCallback(async () => {
+    setState((s) => ({ ...s, isLoading: true }));
 
     try {
-      const [pipelineResponse, rawData] = await Promise.all([
-        getLastPipeline().catch(() => null),
-        fetchRawData(),
-      ]);
+      const { employees, roles } = await fetchRawData();
 
-      if (!pipelineResponse || (pipelineResponse?.success === false && !pipelineResponse?.data)) {
-        const parsed = parsePipelineResponse({}, rawData.employees, rawData.roles);
-        setState((s) => ({
-          ...s,
-          ...parsed,
-          roleMatches: [],
-          developmentInterventions: [],
-          executiveDecisions: [],
-          executiveSummary: deriveExecutiveSummary(parsed.forecastedRoles, [], [], {}),
-          isLoading: false,
-        }));
-        return;
-      }
+      setRawEmployees(employees);
+      setRawRoles(roles);
 
-      const parsed = parsePipelineResponse(pipelineResponse, rawData.employees, rawData.roles);
+      // 💾 save
+      localStorage.setItem(LS_KEYS.employees, JSON.stringify(employees));
+      localStorage.setItem(LS_KEYS.roles, JSON.stringify(roles));
+
+      const parsed = parsePipelineResponse(pipelineData ?? {}, employees, roles);
+
       setState((s) => ({ ...s, ...parsed, isLoading: false }));
-    } catch (err: any) {
-      const msg = err?.message ?? "Failed to refresh data";
-      setState((s) => ({ ...s, isLoading: false, error: msg }));
-      toast.error("Failed to refresh data", { description: msg });
+
+      toast.success("Data loaded");
+    } catch (err) {
+      setState((s) => ({ ...s, isLoading: false }));
+      toast.error("Failed to load data");
     }
-  }, []);
+  }, [pipelineData]);
 
   const runAnalysis = useCallback(async (params: RunPipelineRequest = {}) => {
-    setState((s) => ({ ...s, isRunning: true, error: null }));
+    setState((s) => ({ ...s, isRunning: true }));
 
     try {
-      const [pipelineResponse, rawData] = await Promise.all([
-        runPipeline(params),
-        fetchRawData(),
-      ]);
+      const result = await runPipeline(params);
 
-      const parsed = parsePipelineResponse(pipelineResponse, rawData.employees, rawData.roles);
+      setPipelineData(result);
+
+      // 💾 save pipeline
+      localStorage.setItem(LS_KEYS.pipeline, JSON.stringify(result));
+
+      const parsed = parsePipelineResponse(result, rawEmployees, rawRoles);
+
       setState((s) => ({ ...s, ...parsed, isRunning: false }));
-      toast.success("Analysis complete — data updated across all views");
-    } catch (err: any) {
-      const msg = err?.message ?? "Failed to run analysis";
-      setState((s) => ({ ...s, isRunning: false, error: msg }));
-      toast.error("Analysis failed", { description: msg });
+
+      toast.success("Analysis complete");
+    } catch {
+      setState((s) => ({ ...s, isRunning: false }));
+      toast.error("Analysis failed");
     }
-  }, []);
+  }, [rawEmployees, rawRoles]);
+
+  const refreshData = useCallback(async () => {
+    await loadRawData();
+  }, [loadRawData]);
 
   return (
     <PipelineContext.Provider
       value={{
         ...state,
+        loadRawData,
         runAnalysis,
         refreshData,
-        loadRawData,
       }}
     >
       {children}

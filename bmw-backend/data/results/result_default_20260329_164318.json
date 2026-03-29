@@ -1,0 +1,528 @@
+{
+  "agents": {
+    "role_forecast": {
+      "prioritized_roles": [
+        {
+          "role_id": "r2",
+          "title": "Head of Battery Production",
+          "urgency_score": 95,
+          "strategic_importance": "This role is crucial for the successful launch of a new gigafactory, which is a key component of BMW's EV strategy. The ability to scale operations quickly is essential for meeting market demands.",
+          "opening_in_months": 6,
+          "key_requirements_summary": [
+            "Battery cell manufacturing expertise",
+            "Experience in greenfield factory ramp-up",
+            "Team scaling from 50 to 500+"
+          ]
+        },
+        {
+          "role_id": "r1",
+          "title": "VP Supply Chain — EMEA",
+          "urgency_score": 90,
+          "strategic_importance": "The new VP will be pivotal in navigating the transition to EV supply chains, managing both legacy and new supplier relationships. This role directly impacts the efficiency and effectiveness of supply chain operations during a critical transition.",
+          "opening_in_months": 9,
+          "key_requirements_summary": [
+            "Supply chain strategy experience",
+            "Cross-regional leadership skills",
+            "Crisis management capabilities"
+          ]
+        },
+        {
+          "role_id": "r3",
+          "title": "Director of Digital Talent Acquisition",
+          "urgency_score": 85,
+          "strategic_importance": "This role is vital for transforming BMW's hiring strategy to attract tech talent, which is essential for the company's future competitiveness in the automotive sector. The ability to recruit 2,000 software engineers is a significant organizational priority.",
+          "opening_in_months": 3,
+          "key_requirements_summary": [
+            "Talent acquisition expertise",
+            "Experience in tech hiring at scale",
+            "Strong employer branding skills"
+          ]
+        },
+        {
+          "role_id": "r4",
+          "title": "Plant Manager — Leipzig",
+          "urgency_score": 70,
+          "strategic_importance": "With Leipzig's transition to EV production, this role is important for managing workforce retraining and union negotiations. The successful execution of this transition is critical for maintaining production efficiency.",
+          "opening_in_months": 12,
+          "key_requirements_summary": [
+            "Plant operations experience",
+            "Union negotiation skills",
+            "EV production management experience"
+          ]
+        },
+        {
+          "role_id": "r5",
+          "title": "Chief Data Officer — Group",
+          "urgency_score": 60,
+          "strategic_importance": "While important for long-term data governance and AI adoption, this role has a longer timeline for opening and is less urgent compared to the immediate needs of the other roles. However, it remains critical for future-proofing BMW's data strategy.",
+          "opening_in_months": 15,
+          "key_requirements_summary": [
+            "Data strategy expertise",
+            "AI/ML governance experience",
+            "Multi-country regulatory compliance knowledge"
+          ]
+        }
+      ],
+      "analysis_summary": "The organization faces significant risks in critical areas such as supply chain management and talent acquisition, particularly as it transitions to electric vehicles. Immediate attention is required for roles that directly support strategic initiatives, especially in battery production and supply chain leadership."
+    },
+    "employee_trajectories": {
+      "employee_trajectories": [
+        {
+          "employee_id": "e1",
+          "name": "Marta Kowalczyk",
+          "current_role": "Senior Supply Chain Manager",
+          "trajectory_score": 85,
+          "readiness_horizon_months": 12,
+          "growth_velocity": "high",
+          "key_strengths": [
+            "supply chain strategy",
+            "supplier negotiation",
+            "cross-regional coordination"
+          ],
+          "critical_gaps": [
+            "crisis management experience",
+            "P&L ownership at VP scale"
+          ],
+          "trajectory_summary": "Marta has demonstrated consistent high performance and leadership potential. With targeted development in crisis management and P&L ownership, she is on track for a VP role within a year."
+        },
+        {
+          "employee_id": "e2",
+          "name": "Jonas Weber",
+          "current_role": "Battery Systems Engineer Lead",
+          "trajectory_score": 75,
+          "readiness_horizon_months": 18,
+          "growth_velocity": "medium",
+          "key_strengths": [
+            "battery cell manufacturing",
+            "quality systems",
+            "team leadership"
+          ],
+          "critical_gaps": [
+            "team scaling beyond 50 people",
+            "greenfield ramp-up experience"
+          ],
+          "trajectory_summary": "Jonas shows strong technical skills and leadership potential but needs more experience in scaling teams and greenfield projects. With further development, he could be ready for a plant leadership role in 18 months."
+        },
+        {
+          "employee_id": "e3",
+          "name": "Aisha Mensah",
+          "current_role": "Talent Acquisition Partner — Tech",
+          "trajectory_score": 70,
+          "readiness_horizon_months": 18,
+          "growth_velocity": "medium",
+          "key_strengths": [
+            "tech hiring",
+            "data-driven recruiting",
+            "employer branding"
+          ],
+          "critical_gaps": [
+            "full department P&L",
+            "executive stakeholder management"
+          ],
+          "trajectory_summary": "Aisha has excelled in building a tech pipeline and shows great potential for leadership. However, she must address gaps in P&L management and stakeholder engagement to be ready for a Director role in 18 months."
+        },
+        {
+          "employee_id": "e4",
+          "name": "Stefan Brauer",
+          "current_role": "Deputy Plant Manager — Regensburg",
+          "trajectory_score": 65,
+          "readiness_horizon_months": 12,
+          "growth_velocity": "medium",
+          "key_strengths": [
+            "plant operations",
+            "P&L ownership",
+            "lean manufacturing"
+          ],
+          "critical_gaps": [
+            "Leipzig-specific union dynamics",
+            "workforce retraining at scale"
+          ],
+          "trajectory_summary": "Stefan is a solid leader with extensive experience in plant operations but lacks specific knowledge in union dynamics for Leipzig. With focused development, he could step into a Plant Manager role in about a year."
+        },
+        {
+          "employee_id": "e5",
+          "name": "Lena Fischer",
+          "current_role": "Head of Data Platform",
+          "trajectory_score": 90,
+          "readiness_horizon_months": 18,
+          "growth_velocity": "high",
+          "key_strengths": [
+            "data platform architecture",
+            "executive communication",
+            "AI/ML governance"
+          ],
+          "critical_gaps": [
+            "group-level P&L",
+            "140-country regulatory complexity"
+          ],
+          "trajectory_summary": "Lena is a strong candidate for a CDO role, showcasing exceptional skills in data strategy and governance. With further exposure to group-level P&L and regulatory complexities, she could be ready in 12-18 months."
+        },
+        {
+          "employee_id": "e6",
+          "name": "Raj Patel",
+          "current_role": "Supply Chain Analyst",
+          "trajectory_score": 50,
+          "readiness_horizon_months": 60,
+          "growth_velocity": "low",
+          "key_strengths": [
+            "data analysis",
+            "supply chain basics",
+            "reporting"
+          ],
+          "critical_gaps": [
+            "leadership experience",
+            "strategic thinking",
+            "supplier management",
+            "cross-regional exposure"
+          ],
+          "trajectory_summary": "Raj is a high potential employee but lacks the necessary experience and skills for leadership roles at this time. He will require significant development over the next 4-5 years to be ready for supply chain leadership."
+        },
+        {
+          "employee_id": "e7",
+          "name": "Clara Hoffmann",
+          "current_role": "HR Business Partner — Engineering",
+          "trajectory_score": 60,
+          "readiness_horizon_months": 24,
+          "growth_velocity": "medium",
+          "key_strengths": [
+            "HR strategy",
+            "stakeholder management",
+            "workforce planning"
+          ],
+          "critical_gaps": [
+            "tech hiring expertise",
+            "data-driven recruiting",
+            "employer branding",
+            "DEI strategy depth"
+          ],
+          "trajectory_summary": "Clara has solid HR capabilities but lacks the necessary expertise in tech hiring and data-driven strategies. With targeted development, she could be a candidate for a Senior HR Director role in 2 years."
+        },
+        {
+          "employee_id": "e8",
+          "name": "Thomas Müller",
+          "current_role": "Quality Systems Manager",
+          "trajectory_score": 55,
+          "readiness_horizon_months": 36,
+          "growth_velocity": "low",
+          "key_strengths": [
+            "quality systems",
+            "lean operations",
+            "process design"
+          ],
+          "critical_gaps": [
+            "team scaling",
+            "battery-specific manufacturing",
+            "greenfield experience",
+            "people leadership at scale"
+          ],
+          "trajectory_summary": "Thomas possesses deep expertise in quality systems but lacks broader leadership experience and exposure to battery manufacturing. He will need at least 3 years of development to be considered for senior technical leadership roles."
+        }
+      ]
+    },
+    "role_matches": {
+      "role_matches": [
+        {
+          "role_id": "r2",
+          "role_title": "Head of Battery Production",
+          "recommendation": "external",
+          "top_candidates": [],
+          "external_hire_needed": true,
+          "external_hire_reasoning": "There are no internal candidates ready to meet the requirements for this role within the 6-month timeframe. The current candidates lack essential experience in greenfield factory ramp-up and team scaling beyond 50 people."
+        },
+        {
+          "role_id": "r1",
+          "role_title": "VP Supply Chain — EMEA",
+          "recommendation": "internal",
+          "top_candidates": [
+            {
+              "employee_id": "e1",
+              "name": "Marta Kowalczyk",
+              "fit_score": 85,
+              "will_be_ready_in_months": 12,
+              "match_reasoning": "Marta has strong supply chain strategy skills and cross-regional coordination experience. However, she needs to develop crisis management capabilities and P&L ownership at the VP level, which may delay her readiness beyond the 9-month opening.",
+              "gaps_to_close": [
+                "crisis management experience",
+                "P&L ownership at VP scale"
+              ]
+            }
+          ],
+          "external_hire_needed": true,
+          "external_hire_reasoning": "While Marta is a strong candidate, her readiness in 12 months exceeds the 9-month opening, necessitating an external hire to fill the role on time."
+        },
+        {
+          "role_id": "r3",
+          "role_title": "Director of Digital Talent Acquisition",
+          "recommendation": "internal",
+          "top_candidates": [
+            {
+              "employee_id": "e3",
+              "name": "Aisha Mensah",
+              "fit_score": 70,
+              "will_be_ready_in_months": 18,
+              "match_reasoning": "Aisha has solid experience in tech hiring and employer branding, making her a good fit for this role. However, she needs to address gaps in P&L management and stakeholder engagement, which will delay her readiness.",
+              "gaps_to_close": [
+                "full department P&L",
+                "executive stakeholder management"
+              ]
+            }
+          ],
+          "external_hire_needed": true,
+          "external_hire_reasoning": "Aisha's readiness in 18 months exceeds the 3-month opening, indicating the need for an external hire to fill the role promptly."
+        },
+        {
+          "role_id": "r4",
+          "role_title": "Plant Manager — Leipzig",
+          "recommendation": "internal",
+          "top_candidates": [
+            {
+              "employee_id": "e4",
+              "name": "Stefan Brauer",
+              "fit_score": 65,
+              "will_be_ready_in_months": 12,
+              "match_reasoning": "Stefan has extensive experience in plant operations and P&L ownership, making him a viable candidate. However, he lacks specific knowledge in Leipzig's union dynamics and workforce retraining at scale.",
+              "gaps_to_close": [
+                "Leipzig-specific union dynamics",
+                "workforce retraining at scale"
+              ]
+            }
+          ],
+          "external_hire_needed": true,
+          "external_hire_reasoning": "Stefan's readiness in 12 months aligns with the 12-month opening, but his knowledge gaps may require additional support, suggesting an external hire may still be necessary."
+        },
+        {
+          "role_id": "r5",
+          "role_title": "Chief Data Officer — Group",
+          "recommendation": "internal",
+          "top_candidates": [
+            {
+              "employee_id": "e5",
+              "name": "Lena Fischer",
+              "fit_score": 90,
+              "will_be_ready_in_months": 18,
+              "match_reasoning": "Lena possesses strong data strategy and AI/ML governance skills, making her a top candidate for the CDO role. However, she needs further exposure to group-level P&L and regulatory complexities.",
+              "gaps_to_close": [
+                "group-level P&L",
+                "140-country regulatory complexity"
+              ]
+            }
+          ],
+          "external_hire_needed": true,
+          "external_hire_reasoning": "Lena's readiness in 18 months exceeds the 15-month opening, indicating the necessity for an external hire to ensure timely fulfillment of the role."
+        }
+      ],
+      "overall_pipeline_health": "at-risk",
+      "pipeline_summary": "The internal talent pipeline shows significant gaps in readiness for critical roles, particularly those with urgent openings. External hires will be necessary for most roles to meet the immediate needs of the organization."
+    },
+    "development_plans": {
+      "development_plans": [
+        {
+          "employee_id": "e1",
+          "employee_name": "Marta Kowalczyk",
+          "target_role_id": "r1",
+          "target_role_title": "VP Supply Chain — EMEA",
+          "timeline_months": 9,
+          "interventions": [
+            {
+              "type": "training",
+              "title": "Crisis Management Training",
+              "description": "Enroll in a specialized crisis management workshop to develop skills in handling supply chain disruptions effectively.",
+              "duration_months": 3,
+              "gap_addressed": "crisis management experience",
+              "priority": "critical"
+            },
+            {
+              "type": "assignment",
+              "title": "P&L Ownership Project",
+              "description": "Lead a cross-functional project with P&L responsibilities to gain hands-on experience in financial decision-making at the VP level.",
+              "duration_months": 6,
+              "gap_addressed": "P&L ownership at VP scale",
+              "priority": "critical"
+            }
+          ],
+          "success_metrics": [
+            "Completion of crisis management training with a score of 80% or higher",
+            "Successful management of the P&L project with positive feedback from stakeholders"
+          ],
+          "risk_if_not_done": "Failure to develop these skills may hinder Marta's ability to lead effectively in a crisis and manage financial responsibilities at the VP level."
+        },
+        {
+          "employee_id": "e3",
+          "employee_name": "Aisha Mensah",
+          "target_role_id": "r3",
+          "target_role_title": "Director of Digital Talent Acquisition",
+          "timeline_months": 15,
+          "interventions": [
+            {
+              "type": "training",
+              "title": "P&L Management for HR Leaders",
+              "description": "Participate in a training program focused on managing full department P&L to build financial acumen relevant to the role.",
+              "duration_months": 3,
+              "gap_addressed": "full department P&L",
+              "priority": "high"
+            },
+            {
+              "type": "mentoring",
+              "title": "Executive Stakeholder Engagement",
+              "description": "Pair with a senior leader for mentorship on engaging and managing executive stakeholders effectively.",
+              "duration_months": 6,
+              "gap_addressed": "executive stakeholder management",
+              "priority": "high"
+            },
+            {
+              "type": "exposure",
+              "title": "Cross-Departmental Projects",
+              "description": "Get involved in cross-departmental hiring initiatives to enhance stakeholder engagement skills.",
+              "duration_months": 6,
+              "gap_addressed": "executive stakeholder management",
+              "priority": "medium"
+            }
+          ],
+          "success_metrics": [
+            "Completion of P&L training with a score of 80% or higher",
+            "Positive feedback from mentor on stakeholder engagement skills",
+            "Successful contribution to cross-departmental projects"
+          ],
+          "risk_if_not_done": "Neglecting these development areas may result in Aisha being unprepared to manage the financial and relational complexities of the Director role."
+        },
+        {
+          "employee_id": "e4",
+          "employee_name": "Stefan Brauer",
+          "target_role_id": "r4",
+          "target_role_title": "Plant Manager — Leipzig",
+          "timeline_months": 12,
+          "interventions": [
+            {
+              "type": "training",
+              "title": "Union Dynamics in Leipzig",
+              "description": "Attend a workshop focused on the specific union dynamics and labor relations in the Leipzig area.",
+              "duration_months": 3,
+              "gap_addressed": "Leipzig-specific union dynamics",
+              "priority": "high"
+            },
+            {
+              "type": "assignment",
+              "title": "Workforce Retraining Initiative",
+              "description": "Lead a workforce retraining project at scale to gain experience in managing large-scale employee development.",
+              "duration_months": 6,
+              "gap_addressed": "workforce retraining at scale",
+              "priority": "critical"
+            }
+          ],
+          "success_metrics": [
+            "Successful completion of union dynamics training with positive feedback",
+            "Effective management of the retraining initiative resulting in a measurable increase in workforce skills"
+          ],
+          "risk_if_not_done": "Failure to address these gaps may lead to challenges in navigating labor relations and effectively managing workforce transitions in Leipzig."
+        },
+        {
+          "employee_id": "e5",
+          "employee_name": "Lena Fischer",
+          "target_role_id": "r5",
+          "target_role_title": "Chief Data Officer — Group",
+          "timeline_months": 15,
+          "interventions": [
+            {
+              "type": "exposure",
+              "title": "Group-Level P&L Management",
+              "description": "Shadow the current CDO to gain insights into group-level P&L management and strategic decision-making.",
+              "duration_months": 6,
+              "gap_addressed": "group-level P&L",
+              "priority": "critical"
+            },
+            {
+              "type": "training",
+              "title": "Regulatory Compliance in 140 Countries",
+              "description": "Enroll in a comprehensive training program on regulatory compliance to understand complexities across multiple jurisdictions.",
+              "duration_months": 6,
+              "gap_addressed": "140-country regulatory complexity",
+              "priority": "high"
+            }
+          ],
+          "success_metrics": [
+            "Positive feedback from CDO on shadowing experience",
+            "Completion of regulatory compliance training with a score of 80% or higher"
+          ],
+          "risk_if_not_done": "Without addressing these gaps, Lena may struggle to navigate the complexities of the CDO role effectively."
+        }
+      ]
+    },
+    "final_decision": {
+      "executive_summary": "The talent pipeline for critical roles at BMW Group is currently at risk, with significant gaps in internal readiness for urgent positions, particularly in supply chain and battery production. Immediate external hiring is necessary for most roles to ensure timely fulfillment of strategic initiatives. Focused development plans for internal candidates are essential to build future leadership capabilities.",
+      "pipeline_health": "at-risk",
+      "decisions": [
+        {
+          "role_id": "r2",
+          "role_title": "Head of Battery Production",
+          "recommended_action": "Hire externally to fill this role immediately.",
+          "action_type": "hire_external",
+          "primary_candidate": null,
+          "urgency": "immediate",
+          "confidence": "high",
+          "key_risk": "No internal candidates meet the essential requirements for this role within the 6-month timeframe.",
+          "next_step": "Initiate external recruitment for the Head of Battery Production role this week."
+        },
+        {
+          "role_id": "r1",
+          "role_title": "VP Supply Chain — EMEA",
+          "recommended_action": "Hire externally to ensure timely fulfillment of this role.",
+          "action_type": "hire_external",
+          "primary_candidate": "Marta Kowalczyk",
+          "urgency": "immediate",
+          "confidence": "medium",
+          "key_risk": "Marta's readiness in 12 months exceeds the 9-month opening, necessitating an external hire.",
+          "next_step": "Begin external search for the VP Supply Chain — EMEA role while developing Marta for future opportunities."
+        },
+        {
+          "role_id": "r3",
+          "role_title": "Director of Digital Talent Acquisition",
+          "recommended_action": "Hire externally to fill this role promptly.",
+          "action_type": "hire_external",
+          "primary_candidate": "Aisha Mensah",
+          "urgency": "immediate",
+          "confidence": "medium",
+          "key_risk": "Aisha's readiness in 18 months exceeds the 3-month opening, indicating the need for an external hire.",
+          "next_step": "Launch external recruitment for the Director of Digital Talent Acquisition role this week."
+        },
+        {
+          "role_id": "r4",
+          "role_title": "Plant Manager — Leipzig",
+          "recommended_action": "Hire externally to ensure timely fulfillment of this role.",
+          "action_type": "hire_external",
+          "primary_candidate": "Stefan Brauer",
+          "urgency": "3-months",
+          "confidence": "medium",
+          "key_risk": "Stefan's knowledge gaps may hinder his effectiveness in the role, necessitating external support.",
+          "next_step": "Start external recruitment for the Plant Manager — Leipzig role while developing Stefan."
+        },
+        {
+          "role_id": "r5",
+          "role_title": "Chief Data Officer — Group",
+          "recommended_action": "Hire externally to fill this role effectively.",
+          "action_type": "hire_external",
+          "primary_candidate": "Lena Fischer",
+          "urgency": "12-months",
+          "confidence": "medium",
+          "key_risk": "Lena's readiness in 18 months exceeds the 15-month opening, indicating the necessity for an external hire.",
+          "next_step": "Commence external search for the Chief Data Officer — Group role this week."
+        }
+      ],
+      "top_hidden_talent": [
+        {
+          "employee_id": "e1",
+          "name": "Marta Kowalczyk",
+          "insight": "Marta shows strong potential for a VP role with targeted development in crisis management and P&L ownership."
+        },
+        {
+          "employee_id": "e5",
+          "name": "Lena Fischer",
+          "insight": "Lena possesses exceptional skills in data strategy and governance, making her a strong candidate for future leadership roles."
+        }
+      ],
+      "org_risks": [
+        "Significant gaps in internal talent readiness for critical roles.",
+        "Dependence on external hires may lead to longer onboarding times and cultural integration challenges.",
+        "Failure to develop internal candidates may result in a lack of succession planning for key leadership positions."
+      ]
+    }
+  }
+}
