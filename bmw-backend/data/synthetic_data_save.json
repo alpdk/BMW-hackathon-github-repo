@@ -1,0 +1,512 @@
+{
+  "organization": {
+    "name": "BMW Group",
+    "departments": [
+      { "id": "d1", "name": "Supply Chain & Logistics", "head_role": "VP Supply Chain" },
+      { "id": "d2", "name": "EV & Drivetrain Engineering", "head_role": "VP Engineering" },
+      { "id": "d3", "name": "People & Leadership", "head_role": "Chief People Officer" },
+      { "id": "d4", "name": "Plant Operations", "head_role": "VP Plant Operations" },
+      { "id": "d5", "name": "Digital & Data", "head_role": "Chief Digital Officer" }
+    ]
+  },
+
+  "forecasted_roles": [
+    {
+      "id": "r1",
+      "title": "VP Supply Chain — EMEA",
+      "department_id": "d1",
+      "level": "vp",
+      "location": "EMEA",
+      "mobility_requirement": "open to relocation",
+      "opening_in_months": 9,
+      "reason": "Current VP retirement",
+      "priority": "critical",
+      "required_skills": [
+        "supply chain strategy",
+        "cross-regional leadership",
+        "supplier negotiation",
+        "EV logistics",
+        "crisis management"
+      ],
+      "required_leadership_traits": [
+        "decisive",
+        "resilient",
+        "systems thinker",
+        "stakeholder influencer"
+      ],
+      "must_have_experiences": [
+        "P&L ownership",
+        "cross-regional leadership",
+        "supplier crisis management"
+      ],
+      "team_scope": 300,
+      "budget_scope_eur_millions": 120,
+      "context": "BMW is mid-transition to EV supply chains. The new VP must navigate legacy supplier relationships while building new EV-specific pipelines."
+    },
+    {
+      "id": "r2",
+      "title": "Head of Battery Production",
+      "department_id": "d2",
+      "level": "director",
+      "location": "Debrecen, HU",
+      "mobility_requirement": "relocation required",
+      "opening_in_months": 6,
+      "reason": "New gigafactory launch in Hungary",
+      "priority": "critical",
+      "required_skills": [
+        "battery cell manufacturing",
+        "quality systems",
+        "lean operations",
+        "team scaling",
+        "safety compliance"
+      ],
+      "required_leadership_traits": [
+        "detail-oriented",
+        "disciplined",
+        "hands-on",
+        "collaborative"
+      ],
+      "must_have_experiences": [
+        "greenfield factory ramp-up",
+        "team scaling 50 to 500+",
+        "battery or cell manufacturing"
+      ],
+      "team_scope": 500,
+      "budget_scope_eur_millions": 85,
+      "context": "Greenfield factory ramp-up. Requires someone who can build processes from scratch and scale a team from 50 to 500 in 18 months."
+    },
+    {
+      "id": "r3",
+      "title": "Director of Digital Talent Acquisition",
+      "department_id": "d3",
+      "level": "director",
+      "location": "Munich, DE",
+      "mobility_requirement": "hybrid",
+      "opening_in_months": 3,
+      "reason": "Strategic pivot to tech-first hiring",
+      "priority": "high",
+      "required_skills": [
+        "talent acquisition",
+        "employer branding",
+        "data-driven recruiting",
+        "tech hiring",
+        "DEI strategy"
+      ],
+      "required_leadership_traits": [
+        "innovative",
+        "data-driven",
+        "persuasive",
+        "networker"
+      ],
+      "must_have_experiences": [
+        "tech company or tech-role hiring at scale",
+        "employer brand building",
+        "P&L or budget ownership"
+      ],
+      "team_scope": 40,
+      "budget_scope_eur_millions": 12,
+      "context": "BMW needs 2,000 software engineers over 3 years. This role must transform recruiting from automotive-traditional to tech-competitive."
+    },
+    {
+      "id": "r4",
+      "title": "Plant Manager — Leipzig",
+      "department_id": "d4",
+      "level": "senior_director",
+      "location": "Leipzig, DE",
+      "mobility_requirement": "on-site required",
+      "opening_in_months": 12,
+      "reason": "Internal promotion of current manager",
+      "priority": "medium",
+      "required_skills": [
+        "plant operations",
+        "lean manufacturing",
+        "P&L ownership",
+        "labor relations",
+        "EV production"
+      ],
+      "required_leadership_traits": [
+        "authoritative",
+        "empathetic",
+        "long-term thinker",
+        "conflict resolver"
+      ],
+      "must_have_experiences": [
+        "union negotiation",
+        "large-scale workforce retraining",
+        "EV or mixed-production plant management"
+      ],
+      "team_scope": 1200,
+      "budget_scope_eur_millions": 240,
+      "context": "Leipzig is converting 40% of production to EV. The incoming manager must handle union negotiations and retrain 1,200 workers."
+    },
+    {
+      "id": "r5",
+      "title": "Chief Data Officer — Group",
+      "department_id": "d5",
+      "level": "c_suite",
+      "location": "Munich, DE",
+      "mobility_requirement": "global travel expected",
+      "opening_in_months": 15,
+      "reason": "Current CDO moving to board",
+      "priority": "high",
+      "required_skills": [
+        "data strategy",
+        "AI/ML governance",
+        "data platform architecture",
+        "executive communication",
+        "regulatory compliance"
+      ],
+      "required_leadership_traits": [
+        "visionary",
+        "pragmatic",
+        "cross-functional",
+        "risk-aware"
+      ],
+      "must_have_experiences": [
+        "group-level data governance",
+        "AI adoption at enterprise scale",
+        "multi-country regulatory compliance"
+      ],
+      "team_scope": 600,
+      "budget_scope_eur_millions": 310,
+      "context": "BMW's data estate spans 140 countries. The new CDO must unify data governance while accelerating AI adoption across all business units."
+    }
+  ],
+
+  "employees": [
+    {
+      "id": "e1",
+      "name": "Marta Kowalczyk",
+      "current_role": "Senior Supply Chain Manager",
+      "department_id": "d1",
+      "level": "senior_manager",
+      "tenure_years": 8,
+      "location": "Munich, DE",
+      "mobility": "open to relocation",
+      "people_scope": 25,
+      "budget_scope_eur_millions": 8,
+      "performance_ratings": [4.2, 4.5, 4.7],
+      "skills": [
+        "supply chain strategy",
+        "supplier negotiation",
+        "EV logistics",
+        "cross-regional coordination",
+        "SAP ERP"
+      ],
+      "leadership_traits": [
+        "resilient",
+        "systems thinker",
+        "stakeholder influencer",
+        "decisive"
+      ],
+      "critical_experiences": [
+        "EV supply chain exposure",
+        "supplier negotiation",
+        "cross-regional coordination"
+      ],
+      "development_history": [
+        "Leadership Excellence Program 2022",
+        "EV Supply Chain Certification 2023",
+        "Executive Presence Coaching 2024"
+      ],
+      "career_aspiration": "VP level within 2 years",
+      "readiness_gaps": [
+        "crisis management experience",
+        "P&L ownership at VP scale"
+      ],
+      "manager_assessment": "Highest performer in the department. Ready for stretch assignment."
+    },
+    {
+      "id": "e2",
+      "name": "Jonas Weber",
+      "current_role": "Battery Systems Engineer Lead",
+      "department_id": "d2",
+      "level": "manager",
+      "tenure_years": 5,
+      "location": "Leipzig, DE",
+      "mobility": "open to relocation within EU",
+      "people_scope": 12,
+      "budget_scope_eur_millions": 3,
+      "performance_ratings": [4.0, 4.3, 4.6],
+      "skills": [
+        "battery cell manufacturing",
+        "quality systems",
+        "lean operations",
+        "safety compliance",
+        "team leadership"
+      ],
+      "leadership_traits": [
+        "detail-oriented",
+        "hands-on",
+        "disciplined",
+        "collaborative"
+      ],
+      "critical_experiences": [
+        "battery cell process design",
+        "quality system implementation",
+        "small team leadership"
+      ],
+      "development_history": [
+        "Six Sigma Black Belt 2022",
+        "People Manager Bootcamp 2023",
+        "Gigafactory Site Visit — Tesla Nevada 2024"
+      ],
+      "career_aspiration": "Plant or production leadership role",
+      "readiness_gaps": [
+        "team scaling beyond 50 people",
+        "greenfield ramp-up experience"
+      ],
+      "manager_assessment": "Exceptional technical depth. Needs one more stretch in people leadership."
+    },
+    {
+      "id": "e3",
+      "name": "Aisha Mensah",
+      "current_role": "Talent Acquisition Partner — Tech",
+      "department_id": "d3",
+      "level": "senior_individual_contributor",
+      "tenure_years": 4,
+      "location": "Berlin, DE",
+      "mobility": "remote-first, flexible travel",
+      "people_scope": 0,
+      "budget_scope_eur_millions": 1.5,
+      "performance_ratings": [4.4, 4.6, 4.8],
+      "skills": [
+        "tech hiring",
+        "employer branding",
+        "data-driven recruiting",
+        "DEI strategy",
+        "ATS systems"
+      ],
+      "leadership_traits": [
+        "innovative",
+        "persuasive",
+        "networker",
+        "data-driven"
+      ],
+      "critical_experiences": [
+        "tech pipeline built from scratch",
+        "employer brand campaigns",
+        "data-driven hiring metrics"
+      ],
+      "development_history": [
+        "Strategic HR Leadership Program 2023",
+        "Employer Brand Summit Speaker 2024",
+        "People Analytics Certification 2024"
+      ],
+      "career_aspiration": "Director of TA within 18 months",
+      "readiness_gaps": [
+        "full department P&L",
+        "executive stakeholder management"
+      ],
+      "manager_assessment": "Built our tech pipeline from scratch. Punching above her level already."
+    },
+    {
+      "id": "e4",
+      "name": "Stefan Brauer",
+      "current_role": "Deputy Plant Manager — Regensburg",
+      "department_id": "d4",
+      "level": "senior_manager",
+      "tenure_years": 14,
+      "location": "Regensburg, DE",
+      "mobility": "limited — family in Bavaria",
+      "people_scope": 400,
+      "budget_scope_eur_millions": 55,
+      "performance_ratings": [3.8, 4.0, 4.1],
+      "skills": [
+        "plant operations",
+        "lean manufacturing",
+        "labor relations",
+        "EV production",
+        "P&L ownership"
+      ],
+      "leadership_traits": [
+        "authoritative",
+        "conflict resolver",
+        "empathetic",
+        "long-term thinker"
+      ],
+      "critical_experiences": [
+        "deputy plant management",
+        "union negotiation",
+        "EV production line transition"
+      ],
+      "development_history": [
+        "Plant Leadership Rotation 2019",
+        "Union Negotiation Training 2021",
+        "EV Production Certification 2023"
+      ],
+      "career_aspiration": "Plant Manager role",
+      "readiness_gaps": [
+        "Leipzig-specific union dynamics",
+        "workforce retraining at scale"
+      ],
+      "manager_assessment": "Solid, reliable leader. Not a star but very trustworthy for Leipzig."
+    },
+    {
+      "id": "e5",
+      "name": "Lena Fischer",
+      "current_role": "Head of Data Platform",
+      "department_id": "d5",
+      "level": "director",
+      "tenure_years": 6,
+      "location": "Munich, DE",
+      "mobility": "open to global role",
+      "people_scope": 45,
+      "budget_scope_eur_millions": 18,
+      "performance_ratings": [4.3, 4.5, 4.6],
+      "skills": [
+        "data platform architecture",
+        "AI/ML governance",
+        "data strategy",
+        "regulatory compliance",
+        "executive communication"
+      ],
+      "leadership_traits": [
+        "visionary",
+        "pragmatic",
+        "risk-aware",
+        "cross-functional"
+      ],
+      "critical_experiences": [
+        "enterprise data platform ownership",
+        "AI governance framework design",
+        "board-level presentations"
+      ],
+      "development_history": [
+        "Harvard Executive Data Strategy 2022",
+        "AI Ethics Certification 2023",
+        "Board Presentation Skills 2024"
+      ],
+      "career_aspiration": "CDO within 3 years",
+      "readiness_gaps": [
+        "group-level P&L",
+        "140-country regulatory complexity"
+      ],
+      "manager_assessment": "The obvious internal CDO candidate. Needs 12-18 months more exposure."
+    },
+    {
+      "id": "e6",
+      "name": "Raj Patel",
+      "current_role": "Supply Chain Analyst",
+      "department_id": "d1",
+      "level": "individual_contributor",
+      "tenure_years": 2,
+      "location": "Munich, DE",
+      "mobility": "open to relocation",
+      "people_scope": 0,
+      "budget_scope_eur_millions": 0,
+      "performance_ratings": [3.9, 4.2],
+      "skills": [
+        "data analysis",
+        "supply chain basics",
+        "Python",
+        "SAP ERP",
+        "reporting"
+      ],
+      "leadership_traits": [
+        "curious",
+        "fast learner",
+        "collaborative"
+      ],
+      "critical_experiences": [
+        "graduate rotational program",
+        "data reporting for supply chain"
+      ],
+      "development_history": [
+        "Graduate Rotational Program 2023"
+      ],
+      "career_aspiration": "Supply chain leadership in 5+ years",
+      "readiness_gaps": [
+        "leadership experience",
+        "strategic thinking",
+        "supplier management",
+        "cross-regional exposure"
+      ],
+      "manager_assessment": "High potential but needs 4-5 years of development."
+    },
+    {
+      "id": "e7",
+      "name": "Clara Hoffmann",
+      "current_role": "HR Business Partner — Engineering",
+      "department_id": "d3",
+      "level": "manager",
+      "tenure_years": 7,
+      "location": "Munich, DE",
+      "mobility": "limited",
+      "people_scope": 0,
+      "budget_scope_eur_millions": 0.5,
+      "performance_ratings": [3.7, 3.9, 4.0],
+      "skills": [
+        "HR strategy",
+        "talent acquisition basics",
+        "workforce planning",
+        "stakeholder management"
+      ],
+      "leadership_traits": [
+        "empathetic",
+        "organized",
+        "collaborative"
+      ],
+      "critical_experiences": [
+        "HRBP for engineering org",
+        "workforce planning",
+        "HR program management"
+      ],
+      "development_history": [
+        "HRBP Certification 2020",
+        "Workforce Planning Workshop 2022"
+      ],
+      "career_aspiration": "Senior HR Director",
+      "readiness_gaps": [
+        "tech hiring expertise",
+        "data-driven recruiting",
+        "employer branding",
+        "DEI strategy depth"
+      ],
+      "manager_assessment": "Solid HRBP but not the right fit for a tech-forward TA director role."
+    },
+    {
+      "id": "e8",
+      "name": "Thomas Müller",
+      "current_role": "Quality Systems Manager",
+      "department_id": "d2",
+      "level": "manager",
+      "tenure_years": 10,
+      "location": "Leipzig, DE",
+      "mobility": "prefers Leipzig",
+      "people_scope": 18,
+      "budget_scope_eur_millions": 2,
+      "performance_ratings": [4.1, 4.1, 4.2],
+      "skills": [
+        "quality systems",
+        "lean operations",
+        "safety compliance",
+        "process design",
+        "auditing"
+      ],
+      "leadership_traits": [
+        "detail-oriented",
+        "disciplined",
+        "methodical"
+      ],
+      "critical_experiences": [
+        "ISO lead auditing",
+        "lean process implementation",
+        "quality management system ownership"
+      ],
+      "development_history": [
+        "ISO Lead Auditor 2018",
+        "Lean Black Belt 2020",
+        "Leadership 360 Program 2023"
+      ],
+      "career_aspiration": "Senior technical leadership",
+      "readiness_gaps": [
+        "team scaling",
+        "battery-specific manufacturing",
+        "greenfield experience",
+        "people leadership at scale"
+      ],
+      "manager_assessment": "Deep quality expertise but narrow scope. Not ready for Head of Battery Production."
+    }
+  ]
+}

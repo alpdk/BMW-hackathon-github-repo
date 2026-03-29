@@ -54,10 +54,6 @@ async function fetchRawData(): Promise<{ employees: any[] | null; roles: any[] |
   try {
     const [empRes, roleRes] = await Promise.all([getEmployees(), getRoles()]);
 
-    console.log("🔍 RAW API RESPONSES");
-    console.log("Employees response:", empRes);
-    console.log("Roles response:", roleRes);
-
     const employees = Array.isArray(empRes)
       ? empRes
       : (empRes?.employees ?? empRes?.data?.employees ?? empRes?.data ?? null);
@@ -65,18 +61,6 @@ async function fetchRawData(): Promise<{ employees: any[] | null; roles: any[] |
     const roles = Array.isArray(roleRes)
       ? roleRes
       : (roleRes?.roles ?? roleRes?.data?.roles ?? roleRes?.forecasted_roles ?? roleRes?.data ?? null);
-
-    console.log("🧩 PARSED RAW DATA");
-    console.log("Parsed employees:", employees);
-    console.log("Parsed roles:", roles);
-
-    if (!employees || !Array.isArray(employees)) {
-      console.warn("⚠ Employees parsing failed or returned non-array");
-    }
-
-    if (!roles || !Array.isArray(roles)) {
-      console.warn("⚠ Roles parsing failed or returned non-array");
-    }
 
     return { employees, roles };
   } catch (err) {
