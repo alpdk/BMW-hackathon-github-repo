@@ -206,7 +206,9 @@ export OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 #### Windows (PowerShell)
-`$env:OPENAI_API_KEY="your_openai_api_key_here"`
+```bash
+$env:OPENAI_API_KEY="your_openai_api_key_here"
+```
 
 ### Backend
 
