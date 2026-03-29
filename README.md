@@ -187,3 +187,52 @@ Produces executive-ready decisions, key risks, and next steps.
     │   └── App.tsx
     ├── package.json
     └── ...
+```
+
+## Running locally
+
+### Prerequisites
+
+Before starting the backend, make sure you have your **own OpenAI API key** available.
+
+This project requires an OpenAI API key for the multi-agent pipeline to run.  
+For security reasons, **our API key is not included** in the repository.
+
+Set your own key as an environment variable before starting the backend.
+
+#### macOS / Linux
+```bash
+export OPENAI_API_KEY=your_openai_api_key_here
+```
+
+#### Windows (PowerShell)
+`$env:OPENAI_API_KEY="your_openai_api_key_here"`
+
+### Backend
+
+Open a terminal and run:
+
+```bash
+cd bmw-backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+The backend should start on: `http://localhost:8000`
+
+### Frontend
+
+Open a second terminal and run:
+```bash
+cd bmw-frontend
+npm install
+npm run dev
+```
+
+The frontend should start on: `http://localhost:8080`
+
+How to use the app
+1. Open the frontend in your browser
+2. Click Load Data to fetch the latest employees and roles
+3. Click Run Analysis to generate AI insights
+4. Use Manage Data if you want to add or remove employees and roles
